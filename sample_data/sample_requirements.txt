@@ -1,0 +1,49 @@
+Software Requirements Specification (SRS)
+SmartClinic Appointment Management System - Version 1.0 (Draft for Analysis)
+
+1. PROJECT OVERVIEW
+SmartClinic is an integrated healthcare appointment scheduling and clinical consultation workflow platform designed for multi-specialty outpatient clinics and private medical practices. The primary objective of the system is to modernize patient intake, streamline physician calendars, facilitate tele-consultations, and optimize examination room utilization across clinical departments. By replacing fragmented manual booking mechanisms with an intelligent digital platform, SmartClinic aims to improve patient engagement and maximize clinical throughput.
+
+2. PROBLEM STATEMENT
+Presently, outpatient medical centers suffer from high patient no-show rates (often exceeding 25%), severe administrative overhead caused by manual telephone bookings, and frequent double-booking of medical specialists. Patients face frustrating wait times in crowded physical waiting areas without real-time updates regarding doctor delays. Furthermore, attending physicians lack centralized pre-consultation visibility into medical intake histories, allergy alerts, and previous visit records, which hampers diagnostic efficiency and degrades the overall quality of patient care.
+
+3. SYSTEM USERS AND ACTORS
+The SmartClinic platform serves four distinct user classes:
+• Patient: An individual seeking outpatient medical consultation. Patients register accounts, search for available medical specialists, reserve or reschedule appointments, submit pre-consultation intake questionnaires, and receive automated appointment alerts.
+• Clinic Physician / Specialist: Medical practitioners who configure their consultation schedules, define appointment duration slots, view upcoming patient rosters, review completed intake questionnaires, and record digital clinical encounter notes.
+• Front Desk Receptionist: Administrative staff responsible for checking in arriving patients, managing walk-in queues, handling manual schedule adjustments, and coordinating examination room assignments.
+• Clinic Administrator: Practice operations manager responsible for physician onboarding, specialty department setup, operational hours definition, billing codes, and system audit trail inspection.
+
+4. FUNCTIONAL REQUIREMENTS
+The system shall deliver the following core functional capabilities:
+• FR-01 (Patient Registration and Identity Verification): The system shall allow new patients to create an account using their national healthcare identifier or verified mobile number. Identity verification must be conducted via a 6-digit one-time password (OTP) sent via SMS.
+• FR-02 (Physician Directory and Specialty Search): The system shall provide a search interface allowing patients to filter doctors by medical specialty (e.g., Cardiology, Dermatology, Pediatrics), accepted insurance provider, consultation language, clinic branch location, and earliest available consultation slot.
+• FR-03 (Real-Time Appointment Scheduling and Slot Locking): Patients shall be able to view an interactive calendar displaying available consultation slots for a chosen physician. When a patient initiates a booking for a specific slot, the system must temporarily lock that slot for 10 minutes to prevent concurrent booking conflicts.
+• FR-04 (Automated Multi-Channel Notifications): The system shall transmit automated appointment confirmations and reminder alerts via SMS and email to the patient 24 hours and 2 hours prior to the scheduled consultation.
+• FR-05 (Digital Medical Intake and Consent Forms): Patients must be prompted to complete an electronic medical intake questionnaire (symptoms, current medications, known drug allergies) and digitally sign legal treatment consent agreements prior to consultation start.
+• FR-06 (Walk-In Queue and On-Site Patient Check-In): Front desk receptionists shall have a dedicated portal to check in patients upon physical arrival at the clinic. The system must update the patient queue status in real time (e.g., Arrived, In Triage, With Doctor, Completed).
+• FR-07 (Telehealth Video Consultation): For virtual consultation appointments, the system shall generate a secure, browser-based video meeting link accessible by both patient and doctor at the scheduled appointment time without requiring third-party software installation.
+• FR-08 (Clinical Notes and Digital Prescription Recording): Attending doctors shall be able to record clinical diagnosis notes, ICD-10 diagnostic codes, and generate electronic prescriptions directly within the consultation encounter view upon appointment conclusion.
+
+5. INTENTIONALLY AMBIGUOUS & BORDERLINE REQUIREMENTS (FOR AMBIGUITY DETECTION)
+The following requirements contain deliberate specification gaps for analysis:
+• AMB-01 (Flexible Cancellation and Immediate Refund): Patients can cancel appointments at any time if they are unhappy or change their mind, and their payment will be refunded quickly without questions asked. (Ambiguity: Does at any time allow cancellations 5 minutes before appointment? What is the refund processing window for quickly? Is there a cancellation penalty window?).
+• AMB-02 (System Responsiveness and Spike Handling): The booking interface must respond very fast and handle huge spikes in appointment bookings effortlessly. (Ambiguity: very fast and huge spikes lack concrete quantitative latency and throughput metrics, such as sub-200ms latency at 2,000 concurrent requests).
+• AMB-03 (Usability for Senior Citizens): The entire web and mobile portal should be super user-friendly, highly intuitive, and easy for elderly patients to navigate without training. (Ambiguity: super user-friendly and intuitive are subjective buzzwords with no testable usability benchmarks or WCAG accessibility targets).
+• AMB-04 (Medical Record Retention): All patient encounter histories, clinical notes, and video recordings must be stored safely for a reasonable period. (Ambiguity: reasonable period is legally ambiguous under medical retention mandates like HIPAA which require explicit duration such as 7 years).
+
+6. NON-FUNCTIONAL REQUIREMENTS
+The system must adhere to stringent quality and regulatory attributes:
+• NFR-01 (Security and Healthcare Privacy): All sensitive Protected Health Information (PHI) must be encrypted both at rest using AES-256 encryption and in transit using TLS 1.3. Role-Based Access Control (RBAC) must strictly enforce that only designated care team members can access patient clinical files.
+• NFR-02 (Availability and Reliability): The core appointment booking and clinic management services shall maintain 99.9% uptime during standard operating hours (6:00 AM to 10:00 PM local time), with scheduled maintenance windows restricted to off-peak overnight hours.
+• NFR-03 (Auditability and Immutable Logging): Every access, modification, export, or deletion of patient medical records must generate an immutable, tamper-evident audit log entry containing the actor user ID, timestamp, IP address, and operation performed.
+• NFR-04 (Performance and Scalability): The system must support at least 50 simultaneous clinic branches and sustain 5,000 daily booked appointments with an average 95th percentile API response time under 300 milliseconds.
+
+7. BUSINESS RULES
+• BR-01: A patient cannot have more than two active upcoming appointments scheduled within the same medical specialty on the same calendar day.
+• BR-02: Physicians cannot be scheduled for continuous consultation blocks exceeding 4 hours without an automated mandatory 30-minute rest buffer.
+• BR-03: Appointments where the patient has not arrived or checked in within 15 minutes of the scheduled start time shall be automatically designated as No-Show and released for emergency walk-ins.
+
+8. TECHNICAL CONSTRAINTS & EXTERNAL INTEGRATIONS
+• The system must provide standard RESTful OpenAPI endpoints for interoperability with external Electronic Health Record (EHR) systems conforming to the HL7 FHIR (Fast Healthcare Interoperability Resources) standard.
+• The web application must be fully responsive across mobile, tablet, and desktop devices supporting modern evergreen browsers (Google Chrome, Mozilla Firefox, Apple Safari, Microsoft Edge).
