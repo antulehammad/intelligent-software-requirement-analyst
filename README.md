@@ -7,7 +7,7 @@
 [![Fallback LLM](https://img.shields.io/badge/Fallback%20LLM-Gemini%203.5%20Flash--Lite-yellow.svg)](https://ai.google.dev/)
 [![Backend](https://img.shields.io/badge/Backend-FastAPI-teal.svg)](https://fastapi.tiangolo.com/)
 [![Frontend](https://img.shields.io/badge/Frontend-Streamlit-red.svg)](https://streamlit.io/)
-[![Testing](https://img.shields.io/badge/Tests-40%20Passed-brightgreen.svg)]()
+![Tests: 40 Passed](https://img.shields.io/badge/Tests-40%20Passed-brightgreen.svg)
 
 ---
 
